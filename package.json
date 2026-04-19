@@ -1,0 +1,19 @@
+{
+  "name": "be",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "bun run test:unit",
+    "test:unit": "bun test $(find ./src/Unittests -type f -name '*Test.ts' | sort)",
+    "test:unit:coverage": "bun test --coverage $(find ./src/Unittests -type f -name '*Test.ts' | sort)",
+    "test:unit:watch": "bun test --watch $(find ./src/Unittests -type f -name '*Test.ts' | sort)",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/swagger": "^1.3.1",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
