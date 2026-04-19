@@ -2,5 +2,5 @@ import { ExampleEntity } from "../../../Infrastructures/Entities/Example/Example
 
 export interface IExampleRepository
 {
-	GetHello(): Promise<ExampleEntity>;
+	getHello(): Promise<ExampleEntity>;
 }
