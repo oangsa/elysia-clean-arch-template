@@ -16,10 +16,10 @@ export class ExampleService implements IExampleService
 		this._mapperManager = coreAdapterManager.mapperManager;
 	}
 
-	async getHello(): Promise<ExampleDto>
+	async GetHello(): Promise<ExampleDto>
 	{
-		const exampleEntity = await this._repositoryManager.exampleRepository.getHello();
+		const exampleEntity = await this._repositoryManager.exampleRepository.GetHello();
 
-		return this._mapperManager.exampleMapper.exampleEntityToDto(exampleEntity);
+		return this._mapperManager.exampleMapper.ExampleEntityToDto(exampleEntity);
 	}
 }

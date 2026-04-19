@@ -17,7 +17,7 @@ export class ExampleController extends ControllerBase
 				{
 					try
 					{
-						const result = await this._serviceManager.exampleService.getHello();
+						const result = await this._serviceManager.exampleService.GetHello();
 						set.status = 200;
 
 						return result;

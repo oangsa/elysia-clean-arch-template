@@ -11,8 +11,8 @@ export class ConfigurationManager implements IConfigurationManager
 
 	constructor()
 	{
-		this._server = this.loadServerConfigurations();
-		this._database = this.loadDatabaseConfigurations();
+		this._server = this.LoadServerConfiguration();
+		this._database = this.LoadDatabaseConfiguration();
 	}
 
 	get server(): IServerConfiguration
@@ -26,7 +26,7 @@ export class ConfigurationManager implements IConfigurationManager
 	}
 
 
-	private loadServerConfigurations(): IServerConfiguration
+	private LoadServerConfiguration(): IServerConfiguration
 	{
 		const raw = process.env.PORT
 		const port = raw !== undefined ? Number(raw) : 3000;
@@ -39,7 +39,7 @@ export class ConfigurationManager implements IConfigurationManager
 		return { port };
 	}
 
-	private loadDatabaseConfigurations(): IDatabaseConfiguration
+	private LoadDatabaseConfiguration(): IDatabaseConfiguration
 	{
 		const provider = process.env.DATABASE_PROVIDER !== undefined
 			? process.env.DATABASE_PROVIDER.trim()

@@ -38,7 +38,7 @@ Response shape:
 ```json
 {
 	"message": "Hello, World!",
-	"generated_at": "2026-04-19T12:00:00.000Z"
+	"generatedAt": "2026-04-19T12:00:00.000Z"
 }
 ```
 
