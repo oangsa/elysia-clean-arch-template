@@ -22,6 +22,11 @@ bun run dev
 
 - Swagger UI: http://localhost:3000/swagger
 
+## Project Guides
+
+- Database integration: [docs/Database-Integration.md](docs/Database-Integration.md)
+- New endpoint implementation: [docs/New-Endpoint-Guide.md](docs/New-Endpoint-Guide.md)
+
 ## Example Endpoint
 
 Template endpoint:
@@ -47,5 +52,5 @@ The `Example` feature demonstrates the full flow:
 
 - controller calls application service
 - service uses repository contracts and mapper manager
-- repository returns persistence model
-- mapper converts persistence model to response DTO
+- repository returns infrastructure database entity
+- mapper converts entity to response DTO

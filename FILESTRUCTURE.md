@@ -16,6 +16,11 @@ Developer reference for this backend using **Clean Architecture**.
 - Elysia HTTP framework
 - Swagger plugin for API docs
 
+## Documentation
+
+- `docs/Database-Integration.md`: how to implement and wire a real database adapter
+- `docs/New-Endpoint-Guide.md`: step-by-step endpoint implementation guide
+
 ## Important Structure
 
 ### `src/index.ts`
