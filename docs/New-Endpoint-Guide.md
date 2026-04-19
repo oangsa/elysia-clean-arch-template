@@ -135,28 +135,31 @@ Create service implementation in `src/Applications/UseCases/<Feature>/FeatureSer
 
 ```ts
 import { ICoreAdapterManager } from "../CoreAdapterManager";
+import { IRepositoryManager } from "../../../Domains/Repositories/Core/IRepositoryManager";
 import { IFeatureService } from "../../Services/Feature/IFeatureService";
 import { FeatureDto } from "../../DataTransferObjects/Feature/FeatureDto";
+import { IMapperManager } from "../../Mappers/Core/MapperManager";
 
 export class FeatureService implements IFeatureService
 {
-	private readonly _coreAdapterManager: ICoreAdapterManager;
+	private readonly _repositoryManager: IRepositoryManager;
+    private readonly _mapperManager: IMapperManager;
 
 	constructor(coreAdapterManager: ICoreAdapterManager)
 	{
-		this._coreAdapterManager = coreAdapterManager;
+		this._repositoryManager = coreAdapterManager.repositoryManager;
 	}
 
 	async GetById(id: string): Promise<FeatureDto>
 	{
-		const featureEntity = await this._coreAdapterManager.repositoryManager.featureRepository.GetById(id);
+		const featureEntity = await this._repositoryManager.featureRepository.GetById(id);
 
 		if (featureEntity === null)
 		{
 			throw new Error("Feature not found.");
 		}
 
-		return this._coreAdapterManager.mapperManager.featureMapper.FeatureEntityToDto(featureEntity);
+		return this._mapperManager.featureMapper.FeatureEntityToDto(featureEntity);
 	}
 }
 ```
