@@ -13,6 +13,7 @@ Use this checklist when adding a new feature endpoint.
 7. Add service contract and use case in `Applications/Services` and `Applications/UseCases`.
 8. Register service in `ServiceManager` and expose via `IServiceManager`.
 9. Add controller in `Presentations/Controllers` and register in `ControllerManager`.
+10. Add unit tests using layered mocks in `src/Unittests`.
 
 ## Step 1: Add Validator Schema
 
@@ -26,7 +27,7 @@ import { t } from "elysia";
 export const FeatureResponseSchema = t.Object({
 	id: t.String({ format: "uuid" }),
 	name: t.String(),
-	created_at: t.String({ format: "date-time" }),
+	createdAt: t.String({ format: "date-time" }),
 });
 ```
 
@@ -49,7 +50,7 @@ export interface FeatureEntity
 {
 	id: string;
 	name: string;
-	created_at: Date;
+	createdAt: string;
 }
 ```
 
@@ -62,7 +63,7 @@ import { FeatureEntity } from "../../../Infrastructures/Entities/Feature/Feature
 
 export interface IFeatureRepository
 {
-	getById(id: string): Promise<FeatureEntity | null>;
+	GetById(id: string): Promise<FeatureEntity | null>;
 }
 ```
 
@@ -78,7 +79,7 @@ import { FeatureEntity } from "../../Entities/Feature/FeatureEntity";
 
 export class FeatureRepository implements IFeatureRepository
 {
-	async getById(id: string): Promise<FeatureEntity | null>
+	async GetById(id: string): Promise<FeatureEntity | null>
 	{
 		void id;
 
@@ -99,17 +100,17 @@ import { FeatureEntity } from "../../../Infrastructures/Entities/Feature/Feature
 
 export interface IFeatureMapper
 {
-	featureEntityToDto(featureEntity: FeatureEntity): FeatureDto;
+	FeatureEntityToDto(featureEntity: FeatureEntity): FeatureDto;
 }
 
 export class FeatureMapper implements IFeatureMapper
 {
-	featureEntityToDto(featureEntity: FeatureEntity): FeatureDto
+	FeatureEntityToDto(featureEntity: FeatureEntity): FeatureDto
 	{
 		return {
 			id: featureEntity.id,
 			name: featureEntity.name,
-			created_at: featureEntity.created_at.toISOString(),
+			createdAt: featureEntity.createdAt,
 		};
 	}
 }
@@ -126,7 +127,7 @@ import { FeatureDto } from "../../DataTransferObjects/Feature/FeatureDto";
 
 export interface IFeatureService
 {
-	getById(id: string): Promise<FeatureDto>;
+	GetById(id: string): Promise<FeatureDto>;
 }
 ```
 
@@ -146,16 +147,16 @@ export class FeatureService implements IFeatureService
 		this._coreAdapterManager = coreAdapterManager;
 	}
 
-	async getById(id: string): Promise<FeatureDto>
+	async GetById(id: string): Promise<FeatureDto>
 	{
-		const featureEntity = await this._coreAdapterManager.repositoryManager.featureRepository.getById(id);
+		const featureEntity = await this._coreAdapterManager.repositoryManager.featureRepository.GetById(id);
 
 		if (featureEntity === null)
 		{
 			throw new Error("Feature not found.");
 		}
 
-		return this._coreAdapterManager.mapperManager.featureMapper.featureEntityToDto(featureEntity);
+		return this._coreAdapterManager.mapperManager.featureMapper.FeatureEntityToDto(featureEntity);
 	}
 }
 ```
@@ -187,7 +188,7 @@ export class FeatureController extends ControllerBase
 		{
 			try
 			{
-				const result = await this._serviceManager.featureService.getById(params.id);
+				const result = await this._serviceManager.featureService.GetById(params.id);
 				set.status = 200;
 				return result;
 			}
@@ -202,6 +203,23 @@ export class FeatureController extends ControllerBase
 
 Register it in `src/Presentations/Controllers/Core/ControllerManager.ts`.
 
+## Step 9: Add Unit Tests with Layered Mocks
+
+Add test and mocks under `src/Unittests`:
+
+- `MockRepository/Features/MockFeatureRepository.ts`
+- `MockRepository/Core/MockRepositoryManager.ts`
+- `MockService/MockICoreAdaptorManager.ts`
+- `MockService/MockIServiceManager.ts`
+- `<Feature>ServiceTest.ts`
+
+Recommended usage in tests:
+
+```ts
+const serviceManager = MockIServiceManager.getMock();
+const featureService = serviceManager.featureService;
+```
+
 ## Final Checklist
 
 - Validator added
@@ -211,4 +229,5 @@ Register it in `src/Presentations/Controllers/Core/ControllerManager.ts`.
 - Mapper added and registered
 - Service contract + use case added and registered
 - Controller added and registered
+- Unit tests + layered mocks added
 - Typecheck passes (`bunx tsc --noEmit`)

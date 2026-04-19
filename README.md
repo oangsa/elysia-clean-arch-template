@@ -54,3 +54,24 @@ The `Example` feature demonstrates the full flow:
 - service uses repository contracts and mapper manager
 - repository returns infrastructure database entity
 - mapper converts entity to response DTO
+
+## Unit Testing
+
+Run unit tests:
+
+```bash
+bun run test:unit
+```
+
+Current test structure follows layered mocks in `src/Unittests`:
+
+- `MockRepository/Features`: feature-specific repository mocks (for example `MockExampleRepository`)
+- `MockRepository/Core`: repository manager mock composition
+- `MockService/MockICoreAdaptorManager`: core adapter mock composition
+- `MockService/MockIServiceManager`: service manager mock entry point used by tests
+
+`ExampleServiceTest.ts` demonstrates the recommended pattern:
+
+1. Resolve service via `MockIServiceManager.getMock()`.
+2. Exercise service methods.
+3. Assert DTO output and behavior.

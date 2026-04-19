@@ -84,9 +84,17 @@ Technical implementations and external concerns.
 - `Database/Templates/FrameworkDatabaseAdapterTemplate.ts`: copy-ready template skeleton for custom adapters
 - `Repositories/Core/RepositoryManager.ts`: concrete repository manager
 - `Repositories/Example/ExampleRepository.ts`: example repository implementation
-- `Repositories/Masters/`: master/reference-data repositories
 - `Database/`: db connection/bootstrap
 - `Entities/`: database entities shaped like table columns (database-oriented contracts)
+
+### `src/Unittests/`
+
+Layered unit-test mocks and test files.
+
+- `ExampleServiceTest.ts`: example service unit tests
+- `MockRepository/Features/`: feature repository mock implementations
+- `MockRepository/Core/`: mocked repository manager composition
+- `MockService/`: mocked core adapter + service manager composition
 
 ### `src/Shared/`
 

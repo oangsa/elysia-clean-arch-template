@@ -19,7 +19,7 @@ Template starter classes are in:
 Set these values before app startup:
 
 - `DATABASE_PROVIDER` (example: `postgres`, `mysql`, `sqlite`, `mongodb`, `custom`)
-- `DATABASE_URL` (connection string)
+- `DATABASE_URL` (connection string, required when initializing `DatabaseManager`)
 
 `ConfigurationManager` exposes these values through `configurationManager.database`.
 
