@@ -18,7 +18,7 @@ export class ExampleService implements IExampleService
 
 	async GetHello(): Promise<ExampleDto>
 	{
-		const exampleEntity = await this._repositoryManager.exampleRepository.getHello();
+		const exampleEntity = await this._repositoryManager.exampleRepository.GetHello();
 
 		return this._mapperManager.exampleMapper.ExampleEntityToDto(exampleEntity);
 	}

@@ -3,7 +3,7 @@ import { IExampleRepository } from "../../../Domains/Repositories/Example/IExamp
 
 export class ExampleRepository implements IExampleRepository
 {
-	async getHello(): Promise<ExampleEntity>
+	async GetHello(): Promise<ExampleEntity>
 	{
 		return {
 			message: "Hello, World!",
