@@ -1,4 +1,5 @@
-import { IExampleMapper, ExampleMapper } from "../Example/ExampleMapper";
+import { IExampleMapper } from "../Example/ExampleMapper";
+import { MapperRegistry } from "./MapperRegistry";
 
 export interface IMapperManager
 {
@@ -11,7 +12,9 @@ export class MapperManager implements IMapperManager
 
 	constructor()
 	{
-		this._exampleMapper = new ExampleMapper();
+		const mapperRegistry = MapperRegistry.Create();
+
+		this._exampleMapper = mapperRegistry.exampleMapper;
 	}
 
 	get exampleMapper(): IExampleMapper

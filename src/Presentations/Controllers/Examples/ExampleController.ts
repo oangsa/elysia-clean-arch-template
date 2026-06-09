@@ -15,17 +15,10 @@ export class ExampleController extends ControllerBase
 			app.get("/hello",
 				async ({ set }) =>
 				{
-					try
+					return this.ExecuteWithHandling(set, async () =>
 					{
-						const result = await this._serviceManager.exampleService.GetHello();
-						set.status = 200;
-
-						return result;
-					}
-					catch (error)
-					{
-						return this.handleError(error, set);
-					}
+						return this._serviceManager.exampleService.GetHello();
+					});
 				}, {
 					detail: {
 						tags: ["Example"],

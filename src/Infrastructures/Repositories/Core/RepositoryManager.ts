@@ -1,6 +1,6 @@
 import { IRepositoryManager } from "../../../Domains/Repositories/Core/IRepositoryManager";
 import { IExampleRepository } from "../../../Domains/Repositories/Example/IExampleRepository";
-import { ExampleRepository } from "../Example/ExampleRepository";
+import { RepositoryRegistry } from "./RepositoryRegistry";
 
 export class RepositoryManager implements IRepositoryManager
 {
@@ -8,7 +8,9 @@ export class RepositoryManager implements IRepositoryManager
 
 	constructor()
 	{
-		this._exampleRepository = new ExampleRepository();
+		const repositoryRegistry = RepositoryRegistry.Create();
+
+		this._exampleRepository = repositoryRegistry.exampleRepository;
 	}
 
 	get exampleRepository(): IExampleRepository

@@ -1,7 +1,7 @@
 import { IServiceManager } from "../../Services/Core/IServiceManager";
 import { ICoreAdapterManager } from "../CoreAdapterManager";
 import { IExampleService } from "../../Services/Examples/IExampleService";
-import { ExampleService } from "../../UseCases/Examples/ExampleService";
+import { ServiceRegistry } from "./ServiceRegistry";
 
 export class ServiceManager implements IServiceManager
 {
@@ -14,7 +14,9 @@ export class ServiceManager implements IServiceManager
 	{
 		this._coreAdapterManager = coreAdapterManager;
 
-		this._exampleService = new ExampleService(coreAdapterManager);
+		const serviceRegistry = ServiceRegistry.Create(coreAdapterManager);
+
+		this._exampleService = serviceRegistry.exampleService;
 	}
 
 	get coreAdapterManager(): ICoreAdapterManager

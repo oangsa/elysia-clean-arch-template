@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { IServiceManager } from "../../../Applications/Services/Core/IServiceManager";
-import { DomainException } from "../../../Domains/Exceptions/DomainException";
+import { ExceptionHttpMapper } from "./ExceptionHttpMapper";
 
 export abstract class ControllerBase
 {
@@ -13,23 +13,23 @@ export abstract class ControllerBase
 
 	public abstract RegisterRoutes(app: Elysia<any>): void;
 
+	protected async ExecuteWithHandling<TResponse>(set: any, action: () => Promise<TResponse>, successStatusCode: number = 200): Promise<TResponse | { error: string; message: string }>
+	{
+		try
+		{
+			const result = await action();
+			set.status = successStatusCode;
+
+			return result;
+		}
+		catch (error)
+		{
+			return this.handleError(error, set);
+		}
+	}
+
 	protected handleError(error: unknown, set: any)
 	{
-        if (error instanceof DomainException)
-        {
-            set.status = error.statusCode;
-
-            return {
-                error: error.errorCode,
-                message: error.message,
-            };
-        }
-
-        set.status = 500;
-
-        return {
-            error: "INTERNAL_SERVER_ERROR",
-            message: "Internal server error.",
-        };
-    }
+		return ExceptionHttpMapper.Map(error, set);
+	}
 }
